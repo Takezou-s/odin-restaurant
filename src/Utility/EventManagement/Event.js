@@ -14,6 +14,24 @@ export function Event(delay, postInvokeFn) {
     _listeners.push(listener);
   };
   /**
+   * Unsubscribes listener function.
+   * @param {(sender: any, args: any) => void} listener Function listens event triggers.
+   */
+  const unsubscribe = (listener) => {
+    if (listener) {
+      const index = _listeners.findIndex((x) => x === listener);
+      if (index >= 0) {
+        _listeners.splice(index, 1);
+      }
+    }
+  };
+  /**
+   * Clears all subscribers.
+   */
+  const clearSubscribers = () => {
+    _listeners = [];
+  };
+  /**
    * Fires event.
    * @param {any} sender Owner of event.
    * @param {any} args Value attached to event.
@@ -28,12 +46,12 @@ export function Event(delay, postInvokeFn) {
       }, delay);
       return;
     }
-    _invoke();
+    _invoke(sender, args);
   };
 
   const _invoke = (sender, args) => {
     _listeners.forEach((x) => x(sender, args));
     if (postInvokeFn) postInvokeFn();
   };
-  return { subscribe, fireEvent };
+  return { subscribe, unsubscribe, clearSubscribers, fireEvent };
 }

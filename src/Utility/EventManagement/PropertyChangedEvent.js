@@ -17,5 +17,5 @@ export function PropertyChangedEvent(delay, postInvokeFn) {
     _event.fireEvent(sender, args);
   };
 
-  return { subscribe: _event.subscribe, fireEvent };
+  return { subscribe: _event.subscribe, unsubscribe: _event.unsubscribe, clearSubscribers: _event.clearSubscribers, fireEvent };
 }

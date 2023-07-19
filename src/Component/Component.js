@@ -4,25 +4,56 @@ import { State } from "../Utility/EventManagement/State";
  * Component base class. Subclasses should override "initNode" method and set value of "node" property.
  */
 export class Component {
-  /**
-   * Constructs component.
-   * @param {Component} parent Parent component.
-   */
-  constructor(parent, props) {
+  constructor(props) {
     this.update = false;
-    this.props = props;
-    this.parent = parent;
-    this.parent.children.push(this);
-    this.children = [];
+    this.propStates = [];
     this.stateBinds = [];
-    this.states = State(this, 2500);
+    this.states = State(this, 50);
     this.changedStates = [];
     this.states.stateChangedEvent(this._stateChangedHandler.bind(this));
+
+    if (props) {
+      const createStatesFromProps = () => {
+        for (const key in props) {
+          const value = props[key];
+          this[`${key}PropState`] = this.createState(`props.${key}`, value, true);
+        }
+      };
+
+      const handler = {
+        get: (target, prop, receiver) => {
+          return this.getPropValue(prop);
+        },
+        set: (obj, prop, value) => {
+          this.setPropValue(prop, value);
+          return true;
+        },
+      };
+
+      this.props = new Proxy(Object.assign({}, props), handler);
+      createStatesFromProps();
+    }
 
     if (!this.initNode) throw new Error("'initNode' method could not be found!");
     this.initNode();
     if (!this.node) throw new Error("'node' property can not be null!");
     this.initStates();
+  }
+  /**
+   * Sets prop value.
+   * @param {string} propName prop name.
+   * @param {any} value New value of prop.
+   */
+  setPropValue(propName, value) {
+    this.states.setState(`props.${propName}`, value);
+  }
+  /**
+   * Gets prop value.
+   * @param {string} propName prop name.
+   * @returns any
+   */
+  getPropValue(propName) {
+    return this.states.getState(`props.${propName}`);
   }
   /**
    * State creations and bindings are made in this method.
@@ -50,15 +81,12 @@ export class Component {
     this.stateBinds.push({ state, fn: callbackFn });
   }
   /**
-   * Reflect prop values in "props" to elements.
-   */
-  reflectProps() {}
-  /**
    * Reflect state changes to elements.
    */
   reflectStates() {
-    if (!this.changedStates || this.changedStates.length <= 0) this.stateBinds.forEach((x) => x.fn());
-    else {
+    if (!this.update || !this.changedStates || this.changedStates.length <= 0) {
+      this.stateBinds.forEach((x) => x.fn(x.state, x.state.getState));
+    } else {
       this.changedStates.forEach((x) => {
         const stateBind = this.stateBinds.find((y) => y === x || y.stateName === x.stateName);
         if (stateBind) {
@@ -72,29 +100,23 @@ export class Component {
    * Reflect props and states to elements.
    */
   reflectToElements() {
-    this.reflectProps();
     this.reflectStates();
   }
 
   /**
-   * Renders component inside parent component.
+   * Renders component.
    */
   render() {
     this.reflectToElements();
-    this.children.forEach((x) => x.render());
-    if (!this.update) {
-      this.parent.node.appendChild(this.node);
-      this.update = true;
-    }
+    this.update = true;
+    return this.node;
   }
 
   /**
-   * Removes component from document and parent node's children list.
+   * Removes component from document.
    */
   remove() {
-    this.parent.node.removeChild(this.node);
-    const index = this.parent.children.findIndex((x) => x === this);
-    this.parent.children.splice(index, 1);
+    this.node.remove();
   }
 
   _stateChangedHandler(sender, args) {
