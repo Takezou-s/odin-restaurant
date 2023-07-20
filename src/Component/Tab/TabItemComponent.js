@@ -9,6 +9,8 @@ export default class TabItemComponent extends Component {
 
   initNode() {
     this.node = document.createElement("li");
+    this.node.classList.add("tab-item");
+
     this.buttonEl = document.createElement("button");
     this.buttonEl.addEventListener("click", (event) => {
       this.clickedEvent.fireEvent(this, { event });

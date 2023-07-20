@@ -11,11 +11,13 @@ export default class TabContainerComponent extends Component {
 
   initNode() {
     this.node = document.createElement("div");
+    this.node.classList.add("tab-container");
 
     this.titleEl = document.createElement("h1");
     this.titleEl.classList.add("brand");
 
     this.tabContainerEl = document.createElement("ul");
+    this.tabContainerEl.classList.add("tab-items");
 
     this.node.append(this.titleEl, this.tabContainerEl);
   }

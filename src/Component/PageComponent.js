@@ -11,9 +11,11 @@ function dummyContent(title) {
 export default class PageComponent extends Component {
   initNode() {
     this.node = document.createElement("div");
+    this.node.classList.add("page");
 
     this.headerEl = document.createElement("header");
     this.mainEl = document.createElement("main");
+    this.mainEl.classList.add("main-content");
     this.footerEl = document.createElement("footer");
 
     this.node.append(this.headerEl, this.mainEl, this.footerEl);
