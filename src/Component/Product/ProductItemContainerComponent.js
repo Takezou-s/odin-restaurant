@@ -8,9 +8,13 @@ export default class ProductItemContainerComponent extends Component {
 
   initNode() {
     this.node = document.createElement("li");
+    this.node.classList.add("prod-item-container");
 
     this.headerEl = document.createElement("h1");
+    this.headerEl.classList.add("prod-item-container_category");
+
     this.productItemsEl = document.createElement("ul");
+    this.productItemsEl.classList.add("prod-item-container_items");
 
     this.node.append(this.headerEl, this.productItemsEl);
   }

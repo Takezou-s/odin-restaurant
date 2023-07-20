@@ -38,10 +38,10 @@ export default class PageComponent extends Component {
 
   _initContents() {
     const description =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget euismod turpis. Quisque cursus ipsum eu ex imperdiet, non blandit urna accumsan. Phasellus velit ligula, luctus non fringilla in, cursus vel metus. Donec scelerisque pellentesque nibh. Quisque maximus elit sed dolor tincidunt, in ullamcorper purus blandit. Aliquam id est quis ipsum eleifend volutpat. Sed egestas tortor ac metus placerat, nec mollis velit lobortis. In sed consequat velit. Mauris id dignissim neque. Nunc tristique, metus a.";
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget euismod turpis. Quisque cursus ipsum eu ex imperdiet, non blandit urna accumsan.";
     const categoriedProducts = [
       {
-        category: "Burger",
+        category: "Burgers",
         products: [
           { title: "Chicken (Grilled or Fried)", description, price: 20, image: "https://picsum.photos/200" },
           { title: "Black Bean Veggie Burger", description, price: 10, image: "https://picsum.photos/200" },
@@ -83,7 +83,7 @@ export default class PageComponent extends Component {
       { title: "Menu", active: false, content: this.menuContent },
       { title: "Contact", active: false, content: dummyContent("Contact") },
     ];
-    const tabContainer = new TabContainerComponent({ title: "Kebab House", tabs });
+    const tabContainer = new TabContainerComponent({ title: "Unreal Burger Crafting", tabs });
     tabContainer.activeContentChanged.subscribe((sender, { content }) => this.activeContentState.setState(content));
     this.headerEl.appendChild(tabContainer.render());
   }

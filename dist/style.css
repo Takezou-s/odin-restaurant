@@ -4,9 +4,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-weight: 300;
 }
 
-body {
+body,
+button {
   font-family: "Roboto", sans-serif;
 }
 
@@ -22,15 +24,13 @@ body {
   grid-template-rows: auto 1fr auto;
 }
 
-.main-content {
-  overflow: auto;
-}
-
 .tab-container {
   display: flex;
   align-items: center;
   position: relative;
   padding: 3% 15%;
+  background: #ff406b;
+  color: white;
 }
 
 .brand {
@@ -39,7 +39,7 @@ body {
 
 .tab-items {
   display: flex;
-  gap: 24px;
+  gap: 44px;
   list-style: none;
   margin-left: auto;
   margin-right: auto;
@@ -51,6 +51,9 @@ body {
   outline: none;
   cursor: pointer;
   transition: transform 0.3s;
+  font-size: 18px;
+  opacity: 0.9;
+  color: inherit;
 }
 
 .tab-item > button:hover,
@@ -60,5 +63,81 @@ body {
 }
 
 .tab-item.active > button {
-  border-bottom: 2px solid #0000008f;
+  border-bottom: 2px solid #ffffff8f;
+  opacity: 1;
+  font-weight: 400;
+}
+
+.main-content {
+  overflow: auto;
+  /* padding-left: 15%; */
+  /* padding-right: 15%; */
+  /* padding-bottom: 16px; */
+}
+
+.menu {
+  /* width: 60%; */
+  /* overflow: hidden; */
+  /* margin: auto; */
+  padding-left: 25%;
+  padding-right: 25%;
+  padding-bottom: 16px;
+  /* background: #454649; */
+  background: whitesmoke;
+  /* color: white; */
+}
+
+.menu-header {
+  text-align: center;
+  padding: 3% 0;
+}
+
+.menu-prods {
+  list-style: none;
+  display: grid;
+  gap: 48px;
+}
+
+.prod-item-container {
+  display: grid;
+  gap: 16px;
+}
+
+.prod-item-container_items {
+  display: grid;
+  gap: 16px;
+  list-style: none;
+}
+
+.prod-item {
+  padding: 16px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 2px 6px 0px rgba(0, 0, 0, 0.23);
+  border-radius: 4px;
+  min-width: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.prod-item-header {
+  display: flex;
+}
+
+.prod-item-header_title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.prod-item-header_price {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.prod-item-desc {
+  letter-spacing: 0.75px;
+  word-spacing: 0.75px;
+  line-height: 1.5;
 }
