@@ -15,7 +15,7 @@ export default class TabContainerComponent extends Component {
     this.titleEl = document.createElement("h1");
     this.titleEl.classList.add("brand");
 
-    this.tabContainerEl = document.createElement("div");
+    this.tabContainerEl = document.createElement("ul");
 
     this.node.append(this.titleEl, this.tabContainerEl);
   }

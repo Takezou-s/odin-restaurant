@@ -17,6 +17,7 @@ export class Component {
         for (const key in props) {
           const value = props[key];
           this[`${key}PropState`] = this.createState(`props.${key}`, value, true);
+          this.ps[key] = this[`${key}PropState`];
         }
       };
 
@@ -30,6 +31,7 @@ export class Component {
         },
       };
 
+      this.ps = {};
       this.props = new Proxy(Object.assign({}, props), handler);
       createStatesFromProps();
     }

@@ -8,13 +8,16 @@ export default class TabItemComponent extends Component {
   }
 
   initNode() {
-    this.node = document.createElement("button");
-    this.node.addEventListener("click", (event) => {
+    this.node = document.createElement("li");
+    this.buttonEl = document.createElement("button");
+    this.buttonEl.addEventListener("click", (event) => {
       this.clickedEvent.fireEvent(this, { event });
     });
-    this.node.addEventListener("click", () => {
+    this.buttonEl.addEventListener("click", () => {
       this.countState.setState((x) => ++x);
     });
+
+    this.node.appendChild(this.buttonEl);
   }
 
   initStates() {
@@ -23,7 +26,7 @@ export default class TabItemComponent extends Component {
     this.bindToState(this.countState, (state, getState) => {
       const propText = this.props.text;
       const countStateVal = getState();
-      this.node.textContent = propText + " " + countStateVal;
+      this.buttonEl.textContent = propText + " " + countStateVal;
     });
 
     this.bindToState(this.activePropState, (state, getState) => {
