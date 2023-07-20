@@ -1,4 +1,6 @@
 import { Component } from "./Component";
+import ContactComponent from "./PageContent/ContactComponent";
+import HomeComponent from "./PageContent/HomeComponent";
 import MenuComponent from "./PageContent/MenuComponent";
 import TabContainerComponent from "./Tab/TabContainerComponent";
 
@@ -9,6 +11,9 @@ function dummyContent(title) {
 }
 
 export default class PageComponent extends Component {
+  constructor() {
+    super();
+  }
   initNode() {
     this.node = document.createElement("div");
     this.node.classList.add("page");
@@ -20,13 +25,14 @@ export default class PageComponent extends Component {
 
     this.node.append(this.headerEl, this.mainEl, this.footerEl);
 
+    this.brand = "Unreal Burger Crafting";
     this._initContents();
     this._initHeader();
     this._initFooter();
   }
 
   initStates() {
-    this.activeContentState = this.createState("activeContent", document.createElement("div"), true);
+    this.activeContentState = this.createState("activeContent", this.homeContent, true);
 
     this.bindToState(this.activeContentState, (state, getState) => {
       let content = getState();
@@ -37,6 +43,8 @@ export default class PageComponent extends Component {
   }
 
   _initContents() {
+    this.homeContent = new HomeComponent({ title: this.brand, description: "We craft burgers. Nothing special..." });
+
     const description =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget euismod turpis. Quisque cursus ipsum eu ex imperdiet, non blandit urna accumsan.";
     const categoriedProducts = [
@@ -75,20 +83,26 @@ export default class PageComponent extends Component {
       },
     ];
     this.menuContent = new MenuComponent({ categoriedProducts });
+
+    this.contactContent = new ContactComponent({ phone: "111 222 333", address: "This website" });
   }
 
   _initHeader() {
     const tabs = [
-      { title: "Home", active: true, content: dummyContent("Home") },
+      { title: "Home", active: true, content: this.homeContent },
       { title: "Menu", active: false, content: this.menuContent },
-      { title: "Contact", active: false, content: dummyContent("Contact") },
+      { title: "Contact", active: false, content: this.contactContent },
     ];
-    const tabContainer = new TabContainerComponent({ title: "Unreal Burger Crafting", tabs });
+    const tabContainer = new TabContainerComponent({ title: this.brand, tabs });
     tabContainer.activeContentChanged.subscribe((sender, { content }) => this.activeContentState.setState(content));
     this.headerEl.appendChild(tabContainer.render());
   }
 
   _initFooter() {
-    this.footerEl.insertAdjacentHTML("afterbegin", "<h1>Footer</h1>");
+    this.footerEl.innerHTML = `
+    <a href="https://www.pinterest.com/pin/basic-burger-menu-template-illustrator-indesign-word-apple-pages-psd-publisher--698480223449936211/" target="_blank">Menu - Pinterest</a>
+    <a href="https://www.theodinproject.com/lessons/node-path-javascript-restaurant-page" target="_blank">Restaurant Page for Odin Project</a>
+    <a href="https://picsum.photos/" target="_blank">Images - Lorem Picsum</a>
+    `;
   }
 }
