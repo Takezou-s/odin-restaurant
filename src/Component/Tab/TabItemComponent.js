@@ -23,12 +23,16 @@ export default class TabItemComponent extends Component {
   }
 
   initStates() {
-    this.countState = this.createState("count", 0);
+    // this.countState = this.createState("count", 0);
 
-    this.bindToState(this.countState, (state, getState) => {
-      const propText = this.props.text;
-      const countStateVal = getState();
-      this.buttonEl.textContent = propText + " " + countStateVal;
+    // this.bindToState(this.countState, (state, getState) => {
+    //   const propText = this.props.text;
+    //   const countStateVal = getState();
+    //   this.buttonEl.textContent = propText + " " + countStateVal;
+    // });
+
+    this.bindToState(this.ps.text, (state, getState) => {
+      this.buttonEl.textContent = getState();
     });
 
     this.bindToState(this.activePropState, (state, getState) => {
